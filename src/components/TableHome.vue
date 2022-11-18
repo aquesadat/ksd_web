@@ -47,7 +47,7 @@
                         <td>{{parsePrice(entry.expectedVal)}}{{currSymbol}}</td>
                         <td>{{entry.success}}</td>
                         <td>
-                            <a href="#">
+                            <a href="#" @click="$router.push({name:'chart', params:{id:entry.cxCurr.toLowerCase()}})">
                                 <img class="img-fluid" src="@/assets/img/area-chart-gfbfc0cb1e_640.png" style="width: 70px;">
                             </a>
                         </td>
