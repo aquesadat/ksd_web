@@ -1,5 +1,5 @@
 export default () => ({
     entries: [],
     isLoading: true,
-    currency: ''
+    currency: 'EUR'
 })

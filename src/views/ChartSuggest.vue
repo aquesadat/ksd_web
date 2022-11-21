@@ -4,16 +4,17 @@
 
   <div class="text-center" style="padding-right: 5%;margin-right: 0px;padding-left: 5%;padding-top: 15px;">
     <div class="text-start" style="padding-left: 0px;">
-        <h1 style="font-size: 35.5px;">BITCOIN (BTC)</h1>
-        <h4>Evolución y predicción de precio (EUR)</h4>
+        <h1 style="font-size: 35.5px;">{{getCxName.toUpperCase()}} ({{id.toUpperCase()}})</h1>
+        <h4>Evolución y predicción de precio ({{getCurrency()}})</h4>
     </div>
     <div style="padding-bottom: 5%;">
         <div class="row">
             <div class="col-md-6" style="width: 60%;">
-                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;position&quot;:&quot;top&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;display&quot;:true,&quot;text&quot;:&quot;BTC/EUR&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;3&quot;],&quot;zeroLineBorderDash&quot;:[&quot;3&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:0}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;3&quot;],&quot;zeroLineBorderDash&quot;:[&quot;3&quot;],&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:0}}]}}}"></canvas></div>
+              <!-- Grafica -->
+              <BarChart />
             </div>
             <div class="col-md-6 col-lg-6" style="width: 40%;">
-                <div></div>
+                <!-- Formulario -->
             </div>
         </div>
     </div>
@@ -35,17 +36,13 @@
         </div>
     </div>
 </div>
-<div class="text-center" style="padding-right: 0px;margin-right: 0px;margin-bottom: 0px;padding-bottom: 10px;background: #202739;padding-top: 6px;">
-    <div class="text-start" style="width: 80%;margin-right: auto;margin-left: auto;">
-        <p class="text-start" style="margin: 0px auto;margin-bottom: 0px;color: rgb(255,255,255);background: transparent;font-size: 13px;padding-top: 14px;padding-bottom: 30px;">Descargo de responsabilidad: Coinpredictor.io no es responsable de sus decisiones financieras y de inversión, simplemente presentamos hechos y datos que se utilizarán solo con fines informativos. La naturaleza volátil de las criptomonedas, los comportamientos comerciales de los actores del mercado y la influencia de los medios de comunicación pueden afectar los datos y la información proporcionada; por lo tanto, Coinpredictor.io no es responsable de ninguna pérdida financiera que pueda derivarse de la elección de inversión sobre la base de la información proporcionada aquí, que en sí misma es dinámica y es propensa a cambiar con el tiempo.<br><br></p>
-    </div>
-</div>
 
   <Footer />
 </template>
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters} from 'vuex'
 
 export default {
   props:{
@@ -56,7 +53,38 @@ export default {
   },
   components: {
       Navbar: defineAsyncComponent(() => import('../components/NavBar.vue')),
-      Footer: defineAsyncComponent(() => import('../components/FooterComp.vue'))
+      Footer: defineAsyncComponent(() => import('../components/FooterComp.vue')),
+      BarChart: defineAsyncComponent(() => import('../components/BarChart.vue'))
+  },
+  computed:{
+        ...mapGetters(['getCurrency']),
+        getCxName(){
+          const name = ""
+            switch (this.id.toUpperCase()){
+              case "ADA": 
+                      return "Cardano"
+              case "BNB": 
+                      return "Binance Coin"
+              case "BTC": 
+                      return "Bitcoin"
+              case "DOGE": 
+                      return "Dogecoin"
+              case "DOT": 
+                      return "Polkadot"
+              case "ETH": 
+                      return "Ethereum"
+              case "LTC": 
+                      return "Litecoin"
+              case "SOL": 
+                      return "Solana"
+              case "UNI": 
+                      return "Uniswap"
+              case "XRP": 
+                      return "Ripple"
+            }
+            return name
+        }
+
   }
 }
 </script>
