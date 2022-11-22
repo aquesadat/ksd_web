@@ -1,9 +1,13 @@
 
 export const getAllEntries = (state) => () => {
-    return state.entries;
+    return state.entries
 }
 
 
 export const getCurrency = (state) => () => {
-    return state.currency;
+    return state.currency
+}
+
+export const getCxDataByCode = (state) => (id= '') => {
+    return state.cxData.get(id)
 }

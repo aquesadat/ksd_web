@@ -11,10 +11,11 @@
         <div class="row">
             <div class="col-md-6" style="width: 60%;">
               <!-- Grafica -->
-              <BarChart />
+              <CryptoChart :cxCode="id"/>
             </div>
             <div class="col-md-6 col-lg-6" style="width: 40%;">
-                <!-- Formulario -->
+              <!-- Formulario -->
+              <LineChart />
             </div>
         </div>
     </div>
@@ -54,7 +55,8 @@ export default {
   components: {
       Navbar: defineAsyncComponent(() => import('../components/NavBar.vue')),
       Footer: defineAsyncComponent(() => import('../components/FooterComp.vue')),
-      BarChart: defineAsyncComponent(() => import('../components/BarChart.vue'))
+      CryptoChart: defineAsyncComponent(() => import('../components/CryptoChart.vue')),
+      LineChart: defineAsyncComponent(() => import('../components/LineChart.vue'))
   },
   computed:{
         ...mapGetters(['getCurrency']),

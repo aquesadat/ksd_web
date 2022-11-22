@@ -1,5 +1,6 @@
 export default () => ({
     entries: [],
     isLoading: true,
-    currency: 'EUR'
+    currency: 'EUR',
+    cxData: new Map()
 })
