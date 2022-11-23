@@ -8,6 +8,10 @@ export const getCurrency = (state) => () => {
     return state.currency
 }
 
-export const getCxDataByCode = (state) => (id= '') => {
-    return state.cxData.get(id)
+export const getReadCxDataByCode = (state) => (id= '') => {
+    return state.readCxData.get(id)
+}
+
+export const getPredictCxDataByCode = (state) => (id= '') => {
+    return state.predictCxData.get(id)
 }

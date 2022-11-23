@@ -2,5 +2,6 @@ export default () => ({
     entries: [],
     isLoading: true,
     currency: 'EUR',
-    cxData: new Map()
+    readCxData: new Map(),
+    predictCxData: new Map()
 })

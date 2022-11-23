@@ -77,27 +77,23 @@ export default {
     }
   },
   computed:{
-    ...mapGetters(['getCurrency', 'getCxDataByCode']),
-    getLabels(){
-      const labels = this.getCxDataByCode(this.cxCode).map(e => e.dateTime)
-      return labels
-    }
+    ...mapGetters(['getCurrency'])
   },
   data() {
     return {
       loaded: false,
       chartData: {
-        labels: ['January', 'February', 'March'],
+        labels: [],
         datasets: [
           {
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: [10, 18, 20, NaN, NaN],
+            data: [],
             cubicInterpolationMode: 'monotone'
           },
           {
             backgroundColor: 'rgb(54, 162, 235)',
-            data: [NaN, NaN, 20, 25, 12],
+            data: [],
             borderColor: 'rgb(54, 162, 235)',
             cubicInterpolationMode: 'monotone'
           }
@@ -116,20 +112,39 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['loadCxData'])
+    ...mapActions(['loadReadCxData', 'loadPredictCxData'])
   },
   async mounted () {
     this.loaded = false
     const cxInfo = {
       cxCurr: this.cxCode,
-      exCurr: this.getCurrency()
+      exCurr: this.getCurrency(),
+      interval: 'M60'
     }
 
-    try{
-    const dataLoaded = await this.loadCxData(cxInfo)
-    this.chartData.labels = dataLoaded.map(e => e.dateTime)
+    const sizeRead = 12
+    const sizePredict = 12
 
-    this.loaded = true
+    try{
+      //Data read
+      const dataRead = await this.loadReadCxData(cxInfo)
+      let labels = dataRead.map(e => e.dateTime).slice(-sizeRead)
+      const emptyForPredict = Array(sizePredict).fill(NaN)
+      let priceRead = dataRead.map(e => e.avg).slice(-sizeRead)
+      priceRead.push(...emptyForPredict)
+      this.chartData.datasets[0].data = priceRead
+      
+      //Data predicted
+      const dataPredict = await this.loadPredictCxData(cxInfo)
+      labels.push(...dataPredict.map(e => e.dateTime).slice(0,sizePredict))
+      const emptyForRead = Array(sizeRead).fill(NaN)
+      let pricePredict = dataPredict.map(e => e.expectedVal).slice(0,sizePredict)
+      pricePredict.unshift(...emptyForRead)
+      this.chartData.datasets[1].data = pricePredict
+
+      this.chartData.labels = labels
+
+      this.loaded = true
     }catch(e){
       console.error(e);
     }
