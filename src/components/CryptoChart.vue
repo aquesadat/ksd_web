@@ -86,16 +86,23 @@ export default {
         labels: [],
         datasets: [
           {
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: '#4b5c87',
+            borderColor: '#4b5c87',
+            borderWidth: 2,
             data: [],
-            cubicInterpolationMode: 'monotone'
+            cubicInterpolationMode: 'monotone',
+            pointStyle: 'circle',
+            pointRadius: 2
           },
           {
-            backgroundColor: 'rgb(54, 162, 235)',
+            backgroundColor: '#6e86c5',
             data: [],
-            borderColor: 'rgb(54, 162, 235)',
-            cubicInterpolationMode: 'monotone'
+            borderColor: '#6e86c5',
+            borderWidth: 2,
+            borderDash: [10, 3],
+            cubicInterpolationMode: 'monotone',
+            pointStyle: 'circle',
+            pointRadius: 2
           }
         ]
       },
@@ -104,8 +111,14 @@ export default {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-              display: false
+              display: false,
             }
+        },
+        scales: {
+          y: {
+            type: 'linear',
+            grace: '5%'
+          }
         }
       },
 
@@ -122,8 +135,8 @@ export default {
       interval: 'M60'
     }
 
-    const sizeRead = 6
-    const sizePredict = 6
+    const sizeRead = 8
+    const sizePredict = 8
 
     try{
       //Data read
@@ -146,11 +159,14 @@ export default {
 
 
       for(let i=0; i<labels.length; i++){
-        if(i != 0 && i!= labels.length-1){
-          //Quitar fecha
-          labels[i] = labels[i].split(" ")[1]
-        }
         labels[i] = labels[i].substring(0,labels[i].length-3)
+        if(i != 0 && i!= labels.length-1){
+          labels[i] = labels[i].split(" ")[1]
+        }else{
+          labels[i] = labels[i].split(" ")
+          labels[i][0] = labels[i][0].replace("/20","/");
+        }
+        
       }
 
       this.chartData.labels = labels

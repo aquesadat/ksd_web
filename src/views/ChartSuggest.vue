@@ -7,7 +7,7 @@
         <h1 style="font-size: 35.5px;">{{getCxName.toUpperCase()}} ({{id.toUpperCase()}})</h1>
         <h4>Evolución y predicción de precio ({{getCurrency()}})</h4>
     </div>
-    <div style="padding-bottom: 5%;">
+    <div style="padding-bottom: 5%; padding-top: 2%">
         <div class="row">
             <div class="col-md-6" style="width: 60%;">
               <!-- Grafica -->
