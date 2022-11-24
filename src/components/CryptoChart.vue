@@ -122,8 +122,8 @@ export default {
       interval: 'M60'
     }
 
-    const sizeRead = 12
-    const sizePredict = 12
+    const sizeRead = 6
+    const sizePredict = 6
 
     try{
       //Data read
@@ -131,16 +131,27 @@ export default {
       let labels = dataRead.map(e => e.dateTime).slice(-sizeRead)
       const emptyForPredict = Array(sizePredict).fill(NaN)
       let priceRead = dataRead.map(e => e.avg).slice(-sizeRead)
+      const joinPrice = priceRead.slice(-1)
       priceRead.push(...emptyForPredict)
       this.chartData.datasets[0].data = priceRead
       
       //Data predicted
       const dataPredict = await this.loadPredictCxData(cxInfo)
       labels.push(...dataPredict.map(e => e.dateTime).slice(0,sizePredict))
-      const emptyForRead = Array(sizeRead).fill(NaN)
+      const emptyForRead = Array(sizeRead-1).fill(NaN)
       let pricePredict = dataPredict.map(e => e.expectedVal).slice(0,sizePredict)
+      pricePredict.unshift(...joinPrice)
       pricePredict.unshift(...emptyForRead)
       this.chartData.datasets[1].data = pricePredict
+
+
+      for(let i=0; i<labels.length; i++){
+        if(i != 0 && i!= labels.length-1){
+          //Quitar fecha
+          labels[i] = labels[i].split(" ")[1]
+        }
+        labels[i] = labels[i].substring(0,labels[i].length-3)
+      }
 
       this.chartData.labels = labels
 
