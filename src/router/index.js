@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/HomeIntraDay.vue'
-import ChartSuggest from '../views/ChartSuggest.vue'
+import ChartSimulator from '../views/ChartSimulator.vue'
 
 
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/crypto/:id',
     name: 'chart',
-    component: ChartSuggest,
+    component: ChartSimulator,
     props: (route) =>{
       return {
         id: route.params.id

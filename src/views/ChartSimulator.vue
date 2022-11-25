@@ -1,6 +1,5 @@
 <template>
   <Navbar />
-  <!-- <h1>Id: {{id}}</h1> -->
 
   <div class="text-center" style="padding-right: 5%;margin-right: 0px;padding-left: 5%;padding-top: 15px;">
     <div class="text-start" style="padding-left: 0px;">
@@ -10,12 +9,22 @@
     <div style="padding-bottom: 5%; padding-top: 2%">
         <div class="row">
             <div class="col-md-6" style="width: 60%;">
-              <!-- Grafica -->
               <CryptoChart :cxCode="id"/>
             </div>
-            <div class="col-md-6 col-lg-6" style="width: 40%;">
-              <!-- Formulario -->
-              <LineChart />
+            <div class="col-md-6 col-lg-6" style="width: 40%;background: transparent;border-left-width: 1px;border-left-style: inset;">
+              <div>
+                  <h4 class="text-start" style="padding-bottom: 3%;">Simular inversión</h4>
+                  <div class="row">
+                      <div class="col" style="width: 50%;">
+                          <div class="text-start" style="width: auto;">
+                            <SimulationForm />
+                          </div>
+                      </div>
+                      <div class="col" style="width: 50%;">
+                          <div></div>
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
@@ -56,7 +65,7 @@ export default {
       Navbar: defineAsyncComponent(() => import('../components/NavBar.vue')),
       Footer: defineAsyncComponent(() => import('../components/FooterComp.vue')),
       CryptoChart: defineAsyncComponent(() => import('../components/CryptoChart.vue')),
-      LineChart: defineAsyncComponent(() => import('../components/LineChart.vue'))
+      SimulationForm: defineAsyncComponent(() => import('../components/SimulationForm.vue'))
   },
   computed:{
         ...mapGetters(['getCurrency']),
