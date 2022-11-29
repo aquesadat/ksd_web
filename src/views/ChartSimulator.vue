@@ -6,19 +6,17 @@
         <h1 style="font-size: 35.5px;">{{getCxName.toUpperCase()}} ({{id.toUpperCase()}})</h1>
         <h4>Evolución y predicción de precio ({{getCurrency()}})</h4>
     </div>
-    <div style="padding-bottom: 5%; padding-top: 2%">
+    <div class="container-fluid" style="padding-bottom: 5%; padding-top: 2%">
         <div class="row">
-            <div class="col-md-6" style="width: 60%;">
+            <div class="col-md-7">
               <CryptoChart :cxCode="id"/>
             </div>
-            <div class="col-md-6 col-lg-6" style="width: 40%;background: transparent;border-left-width: 1px;border-left-style: inset;">
-              <div>
+            <div class="col-md-5" >
+              <div style="padding-left: 5%; border-left-width: 1px;border-left-style: inset;">
                   <h4 class="text-start" style="padding-bottom: 3%;">Simular inversión</h4>
                   <div class="row">
-                      <div class="col" style="width: 50%;">
-                          <div class="text-start" style="width: auto;">
-                            <SimulationForm />
-                          </div>
+                      <div class="col" style="width: 50%;">                         
+                        <SimulationForm :cxCode="id"/>
                       </div>
                       <div class="col" style="width: 50%;">
                           <div></div>
