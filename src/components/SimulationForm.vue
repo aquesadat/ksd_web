@@ -47,12 +47,15 @@
   <div class="col" style="width: 50%;">
   <div v-if="loaded" class="card bg-light mb-3 text-start" style="width: auto;">
     <div class="card-header"><b>Resultado</b></div>
-    <div class="card-body">
+    <div v-if="resultOK" class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><h6>Valor:</h6> <em>{{predictedValue}}{{currSymbol}}</em></li>
         <li class="list-group-item"><h6>Beneficio:</h6> <em>{{profit}}{{currSymbol}}</em></li>
         <li class="list-group-item"><h6>Probabilidad:</h6> <em>{{success}}</em></li>
       </ul>
+    </div>
+    <div v-else class="card-body">
+      <p class="card-text text-danger">Error al realizar la simulación. Revise los datos de entrada.</p>
     </div>
   </div>                         
 </div>
@@ -97,6 +100,7 @@ export default {
   data() {
     return {
         loaded: false,
+        resultOK: false,
         amount: null,
         interval: '',
         pfee: null,
@@ -117,16 +121,23 @@ export default {
         "saleFee": this.sfee,
         "purchaseFee": this.pfee
       }
-      const {data} = await ksdApi.post('/simulate', dataRq)
 
-      if(!data || !data.items){
-        //Show error
-      }else{
-        const elem = data.items[this.getPosByInterval]
-        this.predictedValue = elem.expectedVal
-        this.profit = elem.profit
-        this.success = elem.success
+      try{
+        const {data} = await ksdApi.post('/simulate', dataRq)
+        if(!data || !data.items){
+          this.resultOK = false
+        }else{
+          this.resultOK = true
+          const elem = data.items[this.getPosByInterval]
+          this.predictedValue = elem.expectedVal
+          this.profit = elem.profit
+          this.success = elem.success
+        }
+      }catch(e){
+        this.resultOK = false
       }
+
+
       this.loaded = true
     }
   }
