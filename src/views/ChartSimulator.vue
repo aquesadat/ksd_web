@@ -14,13 +14,8 @@
             <div class="col-md-5" >
               <div style="padding-left: 5%; border-left-width: 1px;border-left-style: inset;">
                   <h4 class="text-start" style="padding-bottom: 3%;">Simular inversión</h4>
-                  <div class="row">
-                      <div class="col" style="width: 50%;">                         
-                        <SimulationForm :cxCode="id"/>
-                      </div>
-                      <div class="col" style="width: 50%;">
-                          <div></div>
-                      </div>
+                  <div class="row">                                           
+                      <SimulationForm :cxCode="id" />                      
                   </div>
               </div>
             </div>
