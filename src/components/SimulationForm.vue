@@ -3,15 +3,15 @@
     <form class="text-start d-grid gap-1" style="width: auto;">
       <div class="form-group p-1">
         <div class="input-group">
-          <input v-model="amount" :step="0.01" :min="0.01" :max="1000000" placeholder="Importe inversión*" type="number" required="required" class="form-control">
+          <input v-model="amount" :step="0.01" :min="0.01" :max="1000000" placeholder="Importe inversión*" type="number" required="required" class="form-control" style="font-size: 14px;">
           <div class="input-group-append">
-            <div class="input-group-text">{{currSymbol}}</div>
+            <div class="input-group-text">{{getCurrSymbol}}</div>
           </div>
         </div>
       </div>
       <div class="form-group p-1">
         <div>
-          <select v-model="interval"  required="required" class="form-control" aria-describedby="timeHelpBlock">
+          <select v-model="interval"  required="required" class="form-control" aria-describedby="timeHelpBlock" style="font-size: 14px;">
             <option value="" selected="selected">Tiempo simulación*</option>
             <option value="15m">15 minutos</option>
             <option value="30m">30 minutos</option>
@@ -25,7 +25,7 @@
       </div>
       <div class="form-group p-1">
         <div class="input-group">
-          <input v-model="pfee"  :step="0.1" :min="0" :max="100" placeholder="Comisión compra" type="number" aria-describedby="p_feeHelpBlock" class="form-control">
+          <input v-model="pfee"  :step="0.1" :min="0" :max="100" placeholder="Comisión compra" type="number" aria-describedby="p_feeHelpBlock" class="form-control" style="font-size: 14px;">
           <div class="input-group-append">
             <div class="input-group-text">%</div>
           </div>
@@ -33,7 +33,7 @@
       </div>
       <div class="form-group p-1 pb-4">
         <div class="input-group">
-          <input v-model="sfee" :step="0.1" :min="0" :max="100" placeholder="Comisión venta" type="number" aria-describedby="s_freeHelpBlock" class="form-control">
+          <input v-model="sfee" :step="0.1" :min="0" :max="100" placeholder="Comisión venta" type="number" aria-describedby="s_freeHelpBlock" class="form-control" style="font-size: 14px;">
           <div class="input-group-append">
             <div class="input-group-text">%</div>
           </div>
@@ -49,8 +49,8 @@
     <div class="card-header"><b>Resultado</b></div>
     <div v-if="resultOK" class="card-body">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><h6>Valor:</h6> <em>{{predictedValue}}{{currSymbol}}</em></li>
-        <li class="list-group-item"><h6>Beneficio:</h6> <em>{{profit}}{{currSymbol}}</em></li>
+        <li class="list-group-item"><h6>Valor:</h6> <em>{{predictedValue}}</em></li>
+        <li class="list-group-item"><h6>Beneficio:</h6> <em>{{profit}}</em></li>
         <li class="list-group-item"><h6>Probabilidad:</h6> <em>{{success}}</em></li>
       </ul>
     </div>
@@ -63,6 +63,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {formatPrice, currSymbol} from "@/api/util"
 import ksdApi from "@/api/ksdApi";
 
 export default {
@@ -74,6 +75,9 @@ export default {
   },
   computed:{
     ...mapGetters(['getCurrency']),
+    getCurrSymbol(){
+      return currSymbol(this.getCurrency())
+    },
     getPosByInterval(){
         switch(this.interval){
           case "15m": return 0;
@@ -86,16 +90,16 @@ export default {
           default: return null;
         }
     },
-    currSymbol(){
-      const curr = ""
-      switch (this.getCurrency()){
-          case "EUR": 
-              return "€"
-          case "USD":
-              return "$"
-      }
-      return curr
-    }
+    // currSymbol(){
+    //   const curr = ""
+    //   switch (this.getCurrency()){
+    //       case "EUR": 
+    //           return "€"
+    //       case "USD":
+    //           return "$"
+    //   }
+    //   return curr
+    // }
   },
   data() {
     return {
@@ -129,8 +133,8 @@ export default {
         }else{
           this.resultOK = true
           const elem = data.items[this.getPosByInterval]
-          this.predictedValue = elem.expectedVal
-          this.profit = elem.profit
+          this.predictedValue = formatPrice(elem.expectedVal, this.getCurrency())
+          this.profit = formatPrice(elem.profit, this.getCurrency())
           this.success = elem.success
         }
       }catch(e){

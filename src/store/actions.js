@@ -125,24 +125,24 @@ export const loadMoreData = async({ commit }, cxInfo) => {
     }
     
      if(lastData){
-        cxData.moreInfo.lastData.open = lastData[0]
-        cxData.moreInfo.lastData.high = lastData[1]
-        cxData.moreInfo.lastData.low = lastData[2]
-        cxData.moreInfo.lastData.close = lastData[3]
+        cxData.moreInfo.lastData.open = lastData[1]
+        cxData.moreInfo.lastData.high = lastData[2]
+        cxData.moreInfo.lastData.low = lastData[3]
+        cxData.moreInfo.lastData.close = lastData[4]
      }
 
      if(marketData){
         if(marketData.market_data){
             cxData.moreInfo.mktData.mktcap = marketData.market_data.market_cap[cxInfo.exCurr]
             cxData.moreInfo.mktData.volume = marketData.market_data.total_volume[cxInfo.exCurr]
-            cxData.moreInfo.evoData.evo24h = marketData.market_data.price_change_percentage_24h
-            cxData.moreInfo.evoData.evo7d = marketData.market_data.price_change_percentage_7d
-            cxData.moreInfo.evoData.evo14d = marketData.market_data.price_change_percentage_14d
-            cxData.moreInfo.evoData.evo30d = marketData.market_data.price_change_percentage_30d
+            cxData.moreInfo.evoData.evo24h = marketData.market_data.price_change_percentage_24h.toFixed(2)
+            cxData.moreInfo.evoData.evo7d = marketData.market_data.price_change_percentage_7d.toFixed(2)
+            cxData.moreInfo.evoData.evo14d = marketData.market_data.price_change_percentage_14d.toFixed(2)
+            cxData.moreInfo.evoData.evo30d = marketData.market_data.price_change_percentage_30d.toFixed(2)
         }
      }
 
      commit('setMoreData', cxData)
-     return cxData
+     return cxData.moreInfo
 
 }
