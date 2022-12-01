@@ -15,3 +15,7 @@ export const getReadCxDataByCode = (state) => (id= '') => {
 export const getPredictCxDataByCode = (state) => (id= '') => {
     return state.predictCxData.get(id)
 }
+
+export const getMoreInfoByCode = (state) => (id= '') => {
+    return state.moreInfo.get(id)
+}

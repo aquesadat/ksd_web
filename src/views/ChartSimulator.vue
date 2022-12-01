@@ -22,21 +22,7 @@
         </div>
     </div>
     <div class="text-start">
-        <h5>Última lectura</h5>
-        <div style="font-size: 15px;">
-            <div class="row">
-                <div class="col-md-12"><span><strong>Fecha/hora: </strong>17/11/2022 16:18 (CET)&nbsp;</span></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" style="width: auto;"><span><strong>Máximo:</strong> 20,458.25€</span></div>
-                <div class="col-md-4" style="width: auto;"><span><strong>Mínimo:</strong> 20,356.89€</span></div>
-                <div class="col-md-4" style="width: auto;"><span><strong>Apertura:</strong> 20,489.36€</span></div>
-                <div class="col"><span><strong>Cierre: </strong>21,589.32€</span></div>
-            </div>
-        </div>
-        <div style="padding-top: 20px;">
-            <p style="font-size: 15px;"><span style="color: rgb(0, 0, 0);">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span><br><br></p>
-        </div>
+        <MoreInfo :cxCode="id" />
     </div>
 </div>
 
@@ -58,7 +44,8 @@ export default {
       Navbar: defineAsyncComponent(() => import('../components/NavBar.vue')),
       Footer: defineAsyncComponent(() => import('../components/FooterComp.vue')),
       CryptoChart: defineAsyncComponent(() => import('../components/CryptoChart.vue')),
-      SimulationForm: defineAsyncComponent(() => import('../components/SimulationForm.vue'))
+      SimulationForm: defineAsyncComponent(() => import('../components/SimulationForm.vue')),
+      MoreInfo: defineAsyncComponent(() => import('../components/MoreInfo.vue')) 
   },
   computed:{
         ...mapGetters(['getCurrency']),
