@@ -8,11 +8,12 @@
     </div>
     <div class="container-fluid" style="padding-bottom: 5%; padding-top: 2%">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-7" style="border-right-width:2px;border-right-style: groove;">
               <CryptoChart :cxCode="id"/>
+              <h1>adgadglñkajgañlk </h1>
             </div>
             <div class="col-md-5" >
-              <div style="padding-left: 5%; border-left-width: 1px;border-left-style: inset;">
+              <div style="padding-left: 5%;">
                   <h4 class="text-start" style="padding-bottom: 3%;">Simular inversión</h4>
                   <div class="row">                                           
                       <SimulationForm :cxCode="id" />                      

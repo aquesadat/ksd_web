@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row pb-2">
         <p style="font-size: 15px;">{{coinDescription}}</p>
     </div>
 </template>

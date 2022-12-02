@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory} from 'vue-router'
 import Home from '../views/HomeIntraDay.vue'
 import ChartSimulator from '../views/ChartSimulator.vue'
-
+import PageNotFound from '../components/PageNotFound.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home
   },
   {
@@ -18,6 +18,9 @@ const routes = [
         id: route.params.id
       }
     }
+  },
+  {
+    path: '/:pathMatch(.*)*', component: PageNotFound
   }
 
 ]
