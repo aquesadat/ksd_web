@@ -10,7 +10,6 @@
         <div class="row">
             <div class="col-md-7" style="border-right-width:2px;border-right-style: groove;">
               <CryptoChart :cxCode="id"/>
-              <h1>adgadglñkajgañlk </h1>
             </div>
             <div class="col-md-5" >
               <div style="padding-left: 5%;">
