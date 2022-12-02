@@ -1,6 +1,8 @@
 export default () => ({
-    entries: [],
-    isLoading: true,
+    suggestions: {
+        lastCall: null,
+        data: []
+    },
     currency: 'EUR',
     readCxData: new Map(),
     predictCxData: new Map(),

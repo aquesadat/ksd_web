@@ -1,6 +1,10 @@
 
-export const getAllEntries = (state) => () => {
-    return state.entries
+export const getAllSuggestions = (state) => () => {
+    return state.suggestions.data
+}
+
+export const getSuggestionsLastCall = (state) => () => {
+    return state.suggestions.lastCall
 }
 
 export const getCurrency = (state) => () => {

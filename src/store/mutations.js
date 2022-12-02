@@ -1,8 +1,10 @@
 
+export const setSuggestData = (state, suggestData) => {
+    state.suggestions.data = [...suggestData]
+}
 
-export const setEntries = (state, entries) => {
-    state.entries = [...entries]
-    state.isLoading = false
+export const setSuggestLastCall = (state, lastCall) => {
+    state.suggestions.lastCall = lastCall
 }
 
 export const setCurrency = (state, currency) => {

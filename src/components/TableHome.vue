@@ -1,12 +1,7 @@
 <template>
     <div class="text-start" style="background: #ffffff;width: 85%;margin: 0px auto;">
         
-        <div v-if="isLoading" class="d-flex justify-content-center" style="margin-top: 15px;">            
-                <strong>Cargando datos ...</strong>           
-            <div class="spinner-border ml-auto" style="margin-left: 40px;" role="status" aria-hidden="true"></div>
-        </div>
-        
-        <div v-else class="table-responsive" style="margin: 0px auto;padding-left: 1%;">
+        <div v-if="loaded" class="table-responsive" style="margin: 0px auto;padding-left: 1%;">
             <table class="table">
                 <colgroup>
                     <col span="1" style="width: 8%">
@@ -30,24 +25,24 @@
                 </thead>
                 <tbody class="text-start">
 
-                    <tr v-for="entry in allEntries" :key="entry.id">
-                        <td>#{{entry.rank}}</td>
-                        <td>{{entry.cxCurrDesc}} ({{entry.cxCurr}})</td>
-                        <td v-if="isDownTrend(entry.expectedRaise)" class="down-trend">
+                    <tr v-for="suggestion in allSuggestions" :key="suggestion.id">
+                        <td>#{{suggestion.rank}}</td>
+                        <td>{{suggestion.cxCurrDesc}} ({{suggestion.cxCurr}})</td>
+                        <td v-if="isDownTrend(suggestion.expectedRaise)" class="down-trend">
                             <img src="@/assets/img/red_arrow_down_final.png">
                             &nbsp;
-                            {{entry.expectedRaise}}
+                            {{suggestion.expectedRaise}}
                         </td>
                         <td v-else class="up-trend">
                             <img src="@/assets/img/green_arrow_up_final.png">
                             &nbsp;
-                            {{entry.expectedRaise}}
+                            {{suggestion.expectedRaise}}
                         </td>
-                        <td>{{parsePrice(entry.currVal)}}{{currSymbol}}</td>
-                        <td>{{parsePrice(entry.expectedVal)}}{{currSymbol}}</td>
-                        <td>{{entry.success}}</td>
+                        <td>{{parsePrice(suggestion.currVal)}}{{currSymbol}}</td>
+                        <td>{{parsePrice(suggestion.expectedVal)}}{{currSymbol}}</td>
+                        <td>{{suggestion.success}}</td>
                         <td>
-                            <a href="#" @click="$router.push({name:'chart', params:{id:entry.cxCurr.toLowerCase()}})">
+                            <a href="#" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
                                 <img class="img-fluid" src="@/assets/img/area-chart-gfbfc0cb1e_640.png" style="width: 70px;">
                             </a>
                         </td>
@@ -55,21 +50,28 @@
                 </tbody>
             </table>
         </div>
+
+        <div v-else class="d-flex justify-content-center" style="margin-top: 15px;">            
+                <strong>Cargando datos ...</strong>           
+            <div class="spinner-border ml-auto" style="margin-left: 40px;" role="status" aria-hidden="true"></div>
+        </div>
+
     </div>
 </template>
 
 <script>
 
-import { mapGetters, mapState, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-   
+    data(){
+        return{
+            loaded: false,
+            allSuggestions: []
+        }
+    },
     computed:{
-        ...mapGetters(['getAllEntries','getCurrency']),
-        ...mapState(['isLoading']),
-        allEntries(){
-            return this.getAllEntries()
-        },
+        ...mapGetters(['getAllSuggestions','getCurrency', 'getSuggestionsLastCall']),
         currSymbol(){
             const curr = ""
             switch (this.getCurrency()){
@@ -82,7 +84,7 @@ export default {
         }
     },
     methods:{
-        ...mapActions(['loadEntries']),
+        ...mapActions(['loadSuggestions']),
         isDownTrend(expRaise){
             return expRaise.startsWith('-')
         },
@@ -91,8 +93,26 @@ export default {
         },
         
     },
-    created(){
-        this.loadEntries()
+    async created(){
+        this.loaded = false
+        const lastCall = this.getSuggestionsLastCall()
+        let suggestions = []
+        if(!lastCall){
+            suggestions = await this.loadSuggestions()
+        }else{
+            const diff = (new Date() - lastCall)/(1000*60)  //in minutes
+            if(diff >= 4){
+                suggestions = await this.loadSuggestions()
+            }else{
+                suggestions = this.getAllSuggestions()
+                if(!suggestions){
+                    suggestions = await this.loadSuggestions()
+                }
+            }
+        }
+        this.allSuggestions = suggestions
+
+        this.loaded = true
     }
 
 

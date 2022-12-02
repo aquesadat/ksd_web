@@ -1,7 +1,7 @@
 import ksdApi from "@/api/ksdApi";
 import axios from 'axios'
 
-export const loadEntries = async ({commit}) => {
+export const loadSuggestions = async ({commit}) => {
 
     const curr = 'EUR'
 
@@ -10,21 +10,26 @@ export const loadEntries = async ({commit}) => {
     }
     const {data} = await ksdApi.post('/suggest', suggestRq)
 
+    const suggestData = []
+
     if(!data || !data.items){
-        commit('setEntries', [])
         return
     }
 
-    const entries = []
-    for(let i=0; i< data.items.length; i++){
-        entries.push({
-            ...data.items[i]
-        })
+    if(data && data.items){
+        
+        for(let i=0; i< data.items.length; i++){
+            suggestData.push({
+                ...data.items[i]
+            })
+        }
+        console.log('Setting data from API REST');
+        commit('setSuggestData', suggestData)
+        commit('setSuggestLastCall', new Date())
     }
 
-    commit('setEntries', entries)
     commit('setCurrency', curr)
-
+    return suggestData
 }
 
 export const loadReadCxData = async ({ commit }, cxInfo ) => {

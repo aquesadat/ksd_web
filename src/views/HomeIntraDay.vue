@@ -41,12 +41,6 @@ export default {
         Navbar: defineAsyncComponent(() => import('../components/NavBar.vue')),
         Footer: defineAsyncComponent(() => import('../components/FooterComp.vue')),
         TableHome: defineAsyncComponent(() => import('../components/TableHome.vue'))
-    },
-    methods: {
-        //...mapActions(['loadEntries'])
-    },
-    created(){
-       // this.loadEntries()
     }
 }
 </script>
