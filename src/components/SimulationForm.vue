@@ -50,7 +50,8 @@
     <div v-if="resultOK" class="card-body">
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><h6>Valor:</h6> <em>{{predictedValue}}</em></li>
-        <li class="list-group-item"><h6>Beneficio:</h6> <em>{{profit}}</em></li>
+        <li v-if="profit.startsWith('-')" class="list-group-item down-benefit"><h6>Beneficio:</h6> <em>{{profit}}</em></li>
+        <li v-else class="list-group-item up-benefit"><h6>Beneficio:</h6> <em>{{profit}}</em></li>
         <li class="list-group-item"><h6>Probabilidad:</h6> <em>{{success}}</em></li>
       </ul>
     </div>
@@ -149,6 +150,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
+.up-benefit{
+    color: #078d10
+}
+
+.down-benefit{
+    color: #af2929
+}
 </style>

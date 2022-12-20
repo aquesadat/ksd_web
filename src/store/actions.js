@@ -23,7 +23,6 @@ export const loadSuggestions = async ({commit}) => {
                 ...data.items[i]
             })
         }
-        console.log('Setting data from API REST');
         commit('setSuggestData', suggestData)
         commit('setSuggestLastCall', new Date())
     }

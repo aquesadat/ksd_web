@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import {formatPrice} from "@/api/util"
+import {formatPrice, cgCode} from "@/api/util"
 import {mapActions, mapGetters} from 'vuex'
 export default {
     props: {
@@ -74,30 +74,7 @@ export default {
     computed:{
         ...mapGetters(['getCurrency', 'getDescription']),
         cgCxCode(){
-            const curr = ""
-            switch (this.cxCode){
-                case "ada":
-                    return "cardano"
-                case "btc":
-                    return "bitcoin"
-                case "dot":
-                    return "polkadot"
-                case "ltc":
-                    return "litecoin"
-                case "uni":
-                    return "uniswap"
-                case "bnb":
-                    return "binancecoin"
-                case "doge":
-                    return "dogecoin"
-                case "eth":
-                    return "ethereum"
-                case "sol":
-                    return "solana"
-                case "xrp":
-                    return "ripple"
-            }
-            return curr
+            return cgCode(this.cxCode);
         },
         coinDescription(){
             return this.getDescription(this.cxCode)

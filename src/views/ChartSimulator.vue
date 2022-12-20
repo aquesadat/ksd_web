@@ -3,7 +3,10 @@
 
   <div class="text-center" style="padding-right: 5%;margin-right: 0px;padding-left: 5%;padding-top: 15px;">
     <div class="text-start" style="padding-left: 0px;">
-        <h1 style="font-size: 35.5px;">{{getCxName.toUpperCase()}} ({{id.toUpperCase()}})</h1>
+        <h1 style="font-size: 35.5px;">
+                <img v-bind:src="require(`../assets/img/cxcurrs/small/${imgName}.webp`)" style="width: 35px;height: 35px;;margin-bottom: 9px;">
+                {{getCxName.toUpperCase()}} ({{id.toUpperCase()}})
+        </h1>
         <h4>Evolución y predicción de precio ({{getCurrency()}})</h4>
     </div>
     <div class="container-fluid" style="padding-bottom: 5%; padding-top: 2%">
@@ -32,6 +35,7 @@
 <script>
 import { defineAsyncComponent } from 'vue'
 import { mapGetters} from 'vuex'
+import {cgCode} from "@/api/util"
 
 export default {
   props:{
@@ -49,6 +53,9 @@ export default {
   },
   computed:{
         ...mapGetters(['getCurrency']),
+        imgName(){
+            return cgCode(this.id.toLowerCase());
+        },
         getCxName(){
           const name = ""
             switch (this.id.toUpperCase()){

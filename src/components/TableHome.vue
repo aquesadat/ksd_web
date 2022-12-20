@@ -27,7 +27,15 @@
 
                     <tr v-for="suggestion in allSuggestions" :key="suggestion.id">
                         <td>#{{suggestion.rank}}</td>
-                        <td>{{suggestion.cxCurrDesc}} ({{suggestion.cxCurr}})</td>
+                        
+
+                        <td>
+                             <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                <img v-bind:src="require(`../assets/img/cxcurrs/thumb/${imgName(suggestion.cxCurr)}.webp`)" style="margin-right: 6px;">                             
+                                {{suggestion.cxCurrDesc}} ({{suggestion.cxCurr}})                                
+                             </a>
+                        </td>
+
                         <td v-if="isDownTrend(suggestion.expectedRaise)" class="down-trend">
                             <img src="@/assets/img/red_arrow_down_final.png">
                             &nbsp;
@@ -38,6 +46,8 @@
                             &nbsp;
                             {{suggestion.expectedRaise}}
                         </td>
+
+
                         <td>{{parsePrice(suggestion.currVal)}}{{currSymbol}}</td>
                         <td>{{parsePrice(suggestion.expectedVal)}}{{currSymbol}}</td>
                         <td>{{suggestion.success}}</td>
@@ -62,7 +72,7 @@
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
-
+import {cgCode} from "@/api/util"
 export default {
     data(){
         return{
@@ -91,7 +101,9 @@ export default {
         parsePrice(price){
             return price.toLocaleString('en-US', {maximumFractionDigits:2});
         },
-        
+        imgName(cxCode){
+            return cgCode(cxCode.toLowerCase());
+        }
     },
     async created(){
         this.loaded = false
@@ -128,8 +140,8 @@ export default {
 }
 
 .up-trend > img{
-    width: 44px;
-    height: 31px;
+    width: 35px;
+    height: 27px;
     margin-right: 5px;
 }
 
@@ -138,9 +150,18 @@ export default {
 }
 
 .down-trend > img{
-    width: 44px;
-    height: 31px;
+    width: 35px;
+    height: 27px;
     padding-right: 0px;
+}
+
+a.unlink {
+  color: inherit;
+  text-decoration: inherit;
+}
+a.unlink:hover {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 </style>
