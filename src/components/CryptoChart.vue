@@ -1,4 +1,18 @@
 <template>
+
+  <div class="text-start mb-1">
+    <h6>Intervalo: 
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+      <input type="radio" class="btn-check" @change="onInterval(15)" name="btnradio" id="btnradio1" autocomplete="off" >
+      <label class="btn btn-outline-success" for="btnradio1">15m</label>
+
+      <input type="radio" class="btn-check" @change="onInterval(60)" name="btnradio" id="btnradio2" autocomplete="off" checked>
+      <label class="btn btn-outline-success" for="btnradio2">1h</label>
+    </div>
+    </h6> 
+  </div>
+
+
   <Line v-if="loaded" 
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -125,56 +139,66 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['loadReadCxData', 'loadPredictCxData'])
+    ...mapActions(['loadReadCxData', 'loadPredictCxData']),
+      async onInterval(interval){
+        if(interval==60){
+          await this.loadChart('M60')
+        }else{
+          await this.loadChart('M15')
+        }
+      },
+      async loadChart(interval){       
+        const cxInfo = {
+          cxCurr: this.cxCode,
+          exCurr: this.getCurrency(),
+          interval
+        }
+
+        const sizeRead = 8
+        const sizePredict = 8
+
+        try{
+          //Data read
+          const dataRead = await this.loadReadCxData(cxInfo)
+          let labels = dataRead.map(e => e.dateTime).slice(-sizeRead)
+          const emptyForPredict = Array(sizePredict).fill(NaN)
+          let priceRead = dataRead.map(e => e.avg).slice(-sizeRead)
+          const joinPrice = priceRead.slice(-1)
+          priceRead.push(...emptyForPredict)
+          this.chartData.datasets[0].data = priceRead
+          
+          //Data predicted
+          const dataPredict = await this.loadPredictCxData(cxInfo)
+          labels.push(...dataPredict.map(e => e.dateTime).slice(0,sizePredict))
+          const emptyForRead = Array(sizeRead-1).fill(NaN)
+          let pricePredict = dataPredict.map(e => e.expectedVal).slice(0,sizePredict)
+          pricePredict.unshift(...joinPrice)
+          pricePredict.unshift(...emptyForRead)
+          this.chartData.datasets[1].data = pricePredict
+
+
+          for(let i=0; i<labels.length; i++){
+            labels[i] = labels[i].substring(0,labels[i].length-3)
+            if(i != 0 && i!= labels.length-1){
+              labels[i] = labels[i].split(" ")[1]
+            }else{
+              labels[i] = labels[i].split(" ")
+              labels[i][0] = labels[i][0].replace("/20","/");
+            }
+            
+          }
+
+          this.chartData.labels = labels
+
+          this.loaded = true
+        }catch(e){
+          console.error(e);
+        }
+      }
   },
   async mounted () {
     this.loaded = false
-    const cxInfo = {
-      cxCurr: this.cxCode,
-      exCurr: this.getCurrency(),
-      interval: 'M60'
-    }
-
-    const sizeRead = 8
-    const sizePredict = 8
-
-    try{
-      //Data read
-      const dataRead = await this.loadReadCxData(cxInfo)
-      let labels = dataRead.map(e => e.dateTime).slice(-sizeRead)
-      const emptyForPredict = Array(sizePredict).fill(NaN)
-      let priceRead = dataRead.map(e => e.avg).slice(-sizeRead)
-      const joinPrice = priceRead.slice(-1)
-      priceRead.push(...emptyForPredict)
-      this.chartData.datasets[0].data = priceRead
-      
-      //Data predicted
-      const dataPredict = await this.loadPredictCxData(cxInfo)
-      labels.push(...dataPredict.map(e => e.dateTime).slice(0,sizePredict))
-      const emptyForRead = Array(sizeRead-1).fill(NaN)
-      let pricePredict = dataPredict.map(e => e.expectedVal).slice(0,sizePredict)
-      pricePredict.unshift(...joinPrice)
-      pricePredict.unshift(...emptyForRead)
-      this.chartData.datasets[1].data = pricePredict
-
-
-      for(let i=0; i<labels.length; i++){
-        labels[i] = labels[i].substring(0,labels[i].length-3)
-        if(i != 0 && i!= labels.length-1){
-          labels[i] = labels[i].split(" ")[1]
-        }else{
-          labels[i] = labels[i].split(" ")
-          labels[i][0] = labels[i][0].replace("/20","/");
-        }
-        
-      }
-
-      this.chartData.labels = labels
-
-      this.loaded = true
-    }catch(e){
-      console.error(e);
-    }
+    await this.loadChart('M60')
   }
 }
 </script>

@@ -90,17 +90,7 @@ export default {
           case "24h": return 95;
           default: return null;
         }
-    },
-    // currSymbol(){
-    //   const curr = ""
-    //   switch (this.getCurrency()){
-    //       case "EUR": 
-    //           return "€"
-    //       case "USD":
-    //           return "$"
-    //   }
-    //   return curr
-    // }
+    }
   },
   data() {
     return {
