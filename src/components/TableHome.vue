@@ -26,31 +26,55 @@
                 <tbody class="text-start">
 
                     <tr v-for="suggestion in allSuggestions" :key="suggestion.id">
-                        <td>#{{suggestion.rank}}</td>
+                        <td>
+                             <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                #{{suggestion.rank}}
+                            </a>
+                        </td>
                         
 
                         <td>
                              <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
                                 <img v-bind:src="require(`../assets/img/cxcurrs/thumb/${imgName(suggestion.cxCurr)}.webp`)" style="margin-right: 6px;">                             
-                                {{suggestion.cxCurrDesc}} ({{suggestion.cxCurr}})                                
+                                {{suggestion.cxCurrDesc}}                               
                              </a>
                         </td>
 
-                        <td v-if="isDownTrend(suggestion.expectedRaise)" class="down-trend">
-                            <img src="@/assets/img/red_arrow_down_final.png">
-                            &nbsp;
-                            {{suggestion.expectedRaise}}
+                        <td v-if="isDownTrend(suggestion.expectedRaise)" class="down-trend unlink">
+                            <a href="#" class="down-trend unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">                        
+                                <img src="@/assets/img/red_arrow_down_final.png">
+                                &nbsp;
+                                {{suggestion.expectedRaise}}
+                            </a>
                         </td>
-                        <td v-else class="up-trend">
-                            <img src="@/assets/img/green_arrow_up_final.png">
-                            &nbsp;
-                            {{suggestion.expectedRaise}}
+                        <td v-else class="up-trend unlink">
+                            <a href="#" class="up-trend unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                <img src="@/assets/img/green_arrow_up_final.png">
+                                &nbsp;
+                                {{suggestion.expectedRaise}}
+                            </a>
                         </td>
 
 
-                        <td>{{parsePrice(suggestion.currVal)}}{{currSymbol}}</td>
-                        <td>{{parsePrice(suggestion.expectedVal)}}{{currSymbol}}</td>
-                        <td>{{suggestion.success}}</td>
+                        <td>
+                            <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                {{parsePrice(suggestion.currVal)}}{{currSymbol}}
+                            </a>
+                        </td>
+                        
+                        
+                        <td>
+                            <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                {{parsePrice(suggestion.expectedVal)}}{{currSymbol}}
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="#" class="unlink" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
+                                {{suggestion.success}}
+                            </a>
+                        </td>
+
                         <td>
                             <a href="#" @click="$router.push({name:'chart', params:{id:suggestion.cxCurr.toLowerCase()}})">
                                 <img class="img-fluid" src="@/assets/img/area-chart-gfbfc0cb1e_640.png" style="width: 70px;">
@@ -158,6 +182,8 @@ export default {
 a.unlink {
   color: inherit;
   text-decoration: inherit;
+  width: 100%;
+  display: block;
 }
 a.unlink:hover {
   color: inherit;

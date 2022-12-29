@@ -54,6 +54,7 @@
                 </p>
 
             </div>
+            <p style="font-size: 12px;"> Powered by <a href="https://www.coingecko.com/"> CoinGecko</a></p>
         </div>
     </div>
     <div class="row pb-2">
