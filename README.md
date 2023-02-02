@@ -1,7 +1,7 @@
 # ksd_web
 
 ## Descripción
-Web para la visualización de manera simple y directa las tendencias cortoplacistas que podrían tomar las principales criptodivisas en el marco intradía. 
+Web para la visualización de manera simple y directa las tendencias cortoplacistas que podrían tomar las principales criptodivisas en el marco intradía.<br> 
 Está basada en Vue3 y representa visualmente los datos obtenidos y calculados por [kassandra_task](https://github.com/aquesadat/kssandra_task "kassandra_task") proporcionados vía servicio web por [kassandra_ws](https://github.com/aquesadat/kssandra_ws "kassandra_ws") <br>
 
 ## Pantallas
